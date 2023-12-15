@@ -1949,7 +1949,7 @@ components:
         beskrivelse:
           type: string
         faneinnhold:
-          $ref: "#/components/schemas/SanityFaneinnhold"
+          $ref: "#/components/schemas/Faneinnhold"
       required:
         - id
         - tiltakstype
@@ -2015,7 +2015,7 @@ components:
           type: string
           nullable: true
         faneinnhold:
-          $ref: "#/components/schemas/SanityFaneinnholdRequest"
+          $ref: "#/components/schemas/Faneinnhold"
           nullable: true
         opphav:
           $ref: "#/components/schemas/Opphav"
@@ -2175,7 +2175,7 @@ components:
         stedForGjennomforing:
           type: string
         faneinnhold:
-          $ref: "#/components/schemas/SanityFaneinnhold"
+          $ref: "#/components/schemas/Faneinnhold"
         beskrivelse:
           type: string
         tilgjengeligForVeileder:
@@ -2265,7 +2265,7 @@ components:
           $ref: "#/components/schemas/Opphav"
           nullable: true
         faneinnhold:
-          $ref: "#/components/schemas/SanityFaneinnholdRequest"
+          $ref: "#/components/schemas/Faneinnhold"
           nullable: true
         beskrivelse:
           type: string
@@ -2779,7 +2779,7 @@ components:
           items:
             $ref: "#/components/schemas/SanityRegelverkLenke"
         faneinnhold:
-          $ref: "#/components/schemas/SanityFaneinnhold"
+          $ref: "#/components/schemas/Faneinnhold"
         delingMedBruker:
           type: string
         arenakode:
@@ -2815,7 +2815,7 @@ components:
         sluttdato:
           type: string
         faneinnhold:
-          $ref: "#/components/schemas/SanityFaneinnhold"
+          $ref: "#/components/schemas/Faneinnhold"
         apentForInnsok:
           type: boolean
         stengtFra:
@@ -2844,54 +2844,56 @@ components:
         - regelverkUrl
         - regelverkLenkeNavn
 
-    SanityFaneinnhold:
+    Faneinnhold:
       type: object
       properties:
         forHvemInfoboks:
           type: string
+          nullable: true
         forHvem:
-          type: object
+          $ref: "#/components/schemas/PortableTextContent"
+          nullable: true
         detaljerOgInnholdInfoboks:
           type: string
+          nullable: true
         detaljerOgInnhold:
-          type: object
+          $ref: "#/components/schemas/PortableTextContent"
+          nullable: true
         pameldingOgVarighetInfoboks:
           type: string
+          nullable: true
         pameldingOgVarighet:
-          type: object
-        kontaktinfo:
-          type: object
+          $ref: "#/components/schemas/PortableTextContent"
+          nullable: true
         kontaktinfoInfoboks:
           type: string
+          nullable: true
+        kontaktinfo:
+          $ref: "#/components/schemas/PortableTextContent"
+          nullable: true
         delMedBruker:
           type: string
+          nullable: true
 
-    SanityFaneinnholdRequest:
-      type: object
-      properties:
-        forHvemInfoboks:
-          type: string
-          nullable: true
-        forHvem:
-          type: object
-        detaljerOgInnholdInfoboks:
-          type: string
-          nullable: true
-        detaljerOgInnhold:
-          type: object
-        pameldingOgVarighetInfoboks:
-          type: string
-          nullable: true
-        pameldingOgVarighet:
-          type: object
-        kontaktinfo:
-          type: object
-        kontaktinfoInfoboks:
-          type: string
-          nullable: true
-        delMedBruker:
-          type: string
-          nullable: true
+    PortableTextContent:
+      oneOf:
+        - type: array
+          items:
+            $ref: "#/components/schemas/PortableTextTypedObject"
+        - allOf:
+            - $ref: "#/components/schemas/PortableTextTypedObject"
+
+    PortableTextTypedObject:
+      allOf:
+        - type: object
+          properties:
+            _type:
+              type: string
+            _key:
+              type: string
+          required:
+            - _type
+        - type: object
 
     VeilederflateKontaktInfo:
       type: object

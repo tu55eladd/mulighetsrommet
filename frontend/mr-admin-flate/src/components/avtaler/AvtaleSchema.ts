@@ -47,12 +47,12 @@ export const AvtaleSchema = z.object({
     .object(
       {
         forHvemInfoboks: z.string().nullable().optional(),
-        forHvem: z.any().nullable(),
+        forHvem: z.any().nullable().optional(),
         detaljerOgInnholdInfoboks: z.string().nullable().optional(),
-        detaljerOgInnhold: z.any().nullable(),
+        detaljerOgInnhold: z.any().nullable().optional(),
         pameldingOgVarighetInfoboks: z.string().nullable().optional(),
-        pameldingOgVarighet: z.any().nullable(),
-        kontaktinfo: z.any().nullable(),
+        pameldingOgVarighet: z.any().nullable().optional(),
+        kontaktinfo: z.any().nullable().optional(),
         kontaktinfoInfoboks: z.string().nullable().optional(),
         delMedBruker: z.string().nullable().optional(),
       },

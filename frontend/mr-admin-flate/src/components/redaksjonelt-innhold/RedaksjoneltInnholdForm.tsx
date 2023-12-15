@@ -125,7 +125,7 @@ const ForHvem = ({ tiltakstype }: { tiltakstype?: VeilederflateTiltakstype }) =>
           {tiltakstype?.faneinnhold?.forHvemInfoboks}
         </Alert>
       )}
-      <PortableText value={tiltakstype?.faneinnhold?.forHvem} />
+      <PortableText value={tiltakstype?.faneinnhold?.forHvem ?? []} />
       <Separator />
 
       <div className={skjemastyles.description_richtext_container}>
@@ -152,7 +152,8 @@ const DetaljerOgInnhold = ({ tiltakstype }: { tiltakstype?: VeilederflateTiltaks
       {tiltakstype?.faneinnhold?.detaljerOgInnholdInfoboks && (
         <Alert variant="info">{tiltakstype?.faneinnhold?.detaljerOgInnholdInfoboks}</Alert>
       )}
-      <PortableText value={tiltakstype?.faneinnhold?.detaljerOgInnhold} />
+
+      <PortableText value={tiltakstype?.faneinnhold?.detaljerOgInnhold ?? []} />
       <Separator />
 
       <div className={skjemastyles.description_richtext_container}>
@@ -179,7 +180,7 @@ const PameldingOgVarighet = ({ tiltakstype }: { tiltakstype?: VeilederflateTilta
       {tiltakstype?.faneinnhold?.pameldingOgVarighetInfoboks && (
         <Alert variant="info">{tiltakstype?.faneinnhold?.pameldingOgVarighetInfoboks}</Alert>
       )}
-      <PortableText value={tiltakstype?.faneinnhold?.pameldingOgVarighet} />
+      <PortableText value={tiltakstype?.faneinnhold?.pameldingOgVarighet ?? []} />
       <Separator />
 
       <div className={skjemastyles.description_richtext_container}>

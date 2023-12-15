@@ -1,4 +1,4 @@
-import { SanityFaneinnhold } from "mulighetsrommet-api-client";
+import { Faneinnhold, type PortableTextContent } from "mulighetsrommet-api-client";
 import styles from "../../pages/DetaljerInfo.module.scss";
 import { Alert, BodyLong, Heading } from "@navikt/ds-react";
 import { useTiltakstypeFaneinnhold } from "../../api/tiltaksgjennomforing/useTiltakstypeFaneinnhold";
@@ -10,7 +10,7 @@ import { Laster } from "../laster/Laster";
 interface RedaksjoneltInnholdPreviewProps {
   tiltakstypeId: string;
   beskrivelse?: string;
-  faneinnhold?: SanityFaneinnhold;
+  faneinnhold?: Faneinnhold;
 }
 
 export function RedaksjoneltInnholdPreview(props: RedaksjoneltInnholdPreviewProps) {
@@ -76,10 +76,10 @@ function RedaksjoneltInnhold(props: RedaksjoneltInnholdPreviewProps) {
 }
 
 interface DetaljerFaneProps {
-  tiltaksgjennomforingAlert?: string;
-  tiltakstypeAlert?: string;
-  tiltaksgjennomforing?: any;
-  tiltakstype?: any;
+  tiltaksgjennomforingAlert?: string | null;
+  tiltakstypeAlert?: string | null;
+  tiltaksgjennomforing?: PortableTextContent | null;
+  tiltakstype?: PortableTextContent | null;
 }
 
 const DetaljerFane = ({
@@ -89,12 +89,12 @@ const DetaljerFane = ({
   tiltakstype,
 }: DetaljerFaneProps) => {
   if (!tiltaksgjennomforingAlert && !tiltakstypeAlert && !tiltaksgjennomforing && !tiltakstype) {
-    return <></>;
+    return null;
   }
 
   return (
     <div className={styles.faneinnhold_container}>
-      {tiltakstype && (
+      {(tiltakstypeAlert || tiltakstype) && (
         <>
           <Heading level="2" size="small">
             Generell Informasjon
@@ -104,12 +104,15 @@ const DetaljerFane = ({
               {tiltakstypeAlert}
             </Alert>
           )}
-          <BodyLong as="div" size="small">
-            <PortableText value={tiltakstype} />
-          </BodyLong>
+          {tiltakstype && (
+            <BodyLong as="div" size="small">
+              <PortableText value={tiltakstype} />
+            </BodyLong>
+          )}
         </>
       )}
-      {(tiltaksgjennomforing || tiltaksgjennomforingAlert) && (
+
+      {(tiltaksgjennomforingAlert || tiltaksgjennomforing) && (
         <div className={styles.lokal_informasjon}>
           <Heading level="2" size="small">
             Lokal Informasjon
@@ -119,9 +122,11 @@ const DetaljerFane = ({
               {tiltaksgjennomforingAlert}
             </Alert>
           )}
-          <BodyLong as="div" size="small">
-            <PortableText value={tiltaksgjennomforing} />
-          </BodyLong>
+          {tiltaksgjennomforing && (
+            <BodyLong as="div" size="small">
+              <PortableText value={tiltaksgjennomforing} />
+            </BodyLong>
+          )}
         </div>
       )}
     </div>

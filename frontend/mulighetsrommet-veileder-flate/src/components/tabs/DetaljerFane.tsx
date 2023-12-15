@@ -2,12 +2,13 @@ import { Alert, BodyLong, Heading } from "@navikt/ds-react";
 import styles from "./Detaljerfane.module.scss";
 import FaneTiltaksinformasjon from "./FaneTiltaksinformasjon";
 import { RedaksjoneltInnhold } from "../RedaksjoneltInnhold";
+import { ArbitraryTypedObject } from "@portabletext/types";
 
 interface DetaljerFaneProps {
-  tiltaksgjennomforingAlert?: string;
-  tiltakstypeAlert?: string;
-  tiltaksgjennomforing?: any;
-  tiltakstype?: any;
+  tiltaksgjennomforingAlert?: string | null;
+  tiltakstypeAlert?: string | null;
+  tiltaksgjennomforing?: ArbitraryTypedObject | ArbitraryTypedObject[] | null;
+  tiltakstype?: ArbitraryTypedObject | ArbitraryTypedObject[] | null;
 }
 
 const DetaljerFane = ({
@@ -16,13 +17,14 @@ const DetaljerFane = ({
   tiltaksgjennomforing,
   tiltakstype,
 }: DetaljerFaneProps) => {
+  const harInnhold = !!(
+    tiltaksgjennomforingAlert ||
+    tiltakstypeAlert ||
+    tiltaksgjennomforing ||
+    tiltakstype
+  );
   return (
-    <FaneTiltaksinformasjon
-      className={styles.faneinnhold_container}
-      harInnhold={
-        tiltaksgjennomforingAlert || tiltakstypeAlert || tiltaksgjennomforing || tiltakstype
-      }
-    >
+    <FaneTiltaksinformasjon className={styles.faneinnhold_container} harInnhold={harInnhold}>
       <Heading level="2" size="small">
         Generell informasjon
       </Heading>
@@ -31,9 +33,11 @@ const DetaljerFane = ({
           {tiltakstypeAlert}
         </Alert>
       )}
-      <BodyLong as="div" size="small">
-        <RedaksjoneltInnhold value={tiltakstype} />
-      </BodyLong>
+      {tiltakstype && (
+        <BodyLong as="div" size="small">
+          <RedaksjoneltInnhold value={tiltakstype} />
+        </BodyLong>
+      )}
       {(tiltaksgjennomforing || tiltaksgjennomforingAlert) && (
         <div className={styles.lokal_informasjon}>
           <Heading level="2" size="small">
@@ -44,9 +48,11 @@ const DetaljerFane = ({
               {tiltaksgjennomforingAlert}
             </Alert>
           )}
-          <BodyLong as="div" textColor="subtle" size="small">
-            <RedaksjoneltInnhold value={tiltaksgjennomforing} />
-          </BodyLong>
+          {tiltaksgjennomforing && (
+            <BodyLong as="div" textColor="subtle" size="small">
+              <RedaksjoneltInnhold value={tiltaksgjennomforing} />
+            </BodyLong>
+          )}
         </div>
       )}
     </FaneTiltaksinformasjon>
