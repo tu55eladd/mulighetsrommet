@@ -1,50 +1,57 @@
 import { useQuery } from "@tanstack/react-query";
-import { GetTiltaksgjennomforingerRequest } from "mulighetsrommet-api-client";
-import { mulighetsrommetClient } from "../clients";
-import { QueryKeys } from "../query-keys";
+import { mulighetsrommetClient } from "@/core/api/clients";
+import { QueryKeys } from "@/core/api/query-keys";
 import {
   useArbeidsmarkedstiltakFilterValue,
   valgteEnhetsnumre,
-} from "../../../hooks/useArbeidsmarkedstiltakFilter";
+} from "@/hooks/useArbeidsmarkedstiltakFilter";
 
 export function useVeilederTiltaksgjennomforinger() {
-  return useGetTiltaksgjennomforinger(
-    mulighetsrommetClient.veilederTiltak.getVeilederTiltaksgjennomforinger,
-  );
+  const { queryIsValid, query } = useGetArbeidsmarkedstiltakFilterAsQuery();
+
+  return useQuery({
+    queryKey: QueryKeys.sanity.tiltaksgjennomforinger(query),
+    queryFn: () => mulighetsrommetClient.veilederTiltak.getVeilederTiltaksgjennomforinger(query),
+    enabled: queryIsValid,
+  });
 }
 
 export function useNavTiltaksgjennomforinger() {
-  return useGetTiltaksgjennomforinger(
-    mulighetsrommetClient.veilederTiltak.getNavTiltaksgjennomforinger,
-  );
+  const { queryIsValid, query } = useGetArbeidsmarkedstiltakFilterAsQuery();
+
+  return useQuery({
+    queryKey: QueryKeys.sanity.tiltaksgjennomforinger(query),
+    queryFn: () => mulighetsrommetClient.veilederTiltak.getNavTiltaksgjennomforinger(query),
+    enabled: queryIsValid,
+  });
 }
 
 export function usePreviewTiltaksgjennomforinger() {
-  return useGetTiltaksgjennomforinger(
-    mulighetsrommetClient.veilederTiltak.getPreviewTiltaksgjennomforinger,
-  );
-}
-
-function useGetTiltaksgjennomforinger(
-  queryFn: typeof mulighetsrommetClient.veilederTiltak.getVeilederTiltaksgjennomforinger,
-) {
-  const filter = useArbeidsmarkedstiltakFilterValue();
-  const requestBody: GetTiltaksgjennomforingerRequest = {
-    enheter: valgteEnhetsnumre(filter),
-    innsatsgruppe: filter.innsatsgruppe?.nokkel,
-    apentForInnsok: filter.apentForInnsok,
-  };
-
-  if (filter.search) {
-    requestBody.search = filter.search;
-  }
-
-  if (filter.tiltakstyper.length > 0) {
-    requestBody.tiltakstypeIds = filter.tiltakstyper.map(({ id }) => id);
-  }
+  const { queryIsValid, query } = useGetArbeidsmarkedstiltakFilterAsQuery();
 
   return useQuery({
-    queryKey: QueryKeys.sanity.tiltaksgjennomforinger(filter),
-    queryFn: queryFn.bind(mulighetsrommetClient.veilederTiltak, { requestBody }),
+    queryKey: QueryKeys.sanity.tiltaksgjennomforingerPreview(query),
+    queryFn: () => mulighetsrommetClient.veilederTiltak.getPreviewTiltaksgjennomforinger(query),
+    enabled: queryIsValid,
   });
+}
+
+function useGetArbeidsmarkedstiltakFilterAsQuery() {
+  const filter = useArbeidsmarkedstiltakFilterValue();
+
+  const tiltakstyper =
+    filter.tiltakstyper.length !== 0 ? filter.tiltakstyper.map(({ id }) => id) : undefined;
+
+  const enheter = valgteEnhetsnumre(filter);
+
+  return {
+    queryIsValid: enheter.length !== 0 && filter.innsatsgruppe !== undefined,
+    query: {
+      search: filter.search || undefined,
+      apentForInnsok: filter.apentForInnsok,
+      innsatsgruppe: filter.innsatsgruppe?.nokkel,
+      enheter,
+      tiltakstyper,
+    },
+  };
 }
