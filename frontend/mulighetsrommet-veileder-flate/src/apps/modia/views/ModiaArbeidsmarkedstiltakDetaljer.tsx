@@ -111,7 +111,7 @@ export function ModiaArbeidsmarkedstiltakDetaljer() {
           </>
         }
         brukerActions={
-          <div className={styles.brukeractions_container}>
+          <>
             {kanOppretteAvtaleForTiltak && (
               <Button
                 onClick={() => {
@@ -126,6 +126,7 @@ export function ModiaArbeidsmarkedstiltakDetaljer() {
                 Opprett avtale
               </Button>
             )}
+
             {enableDeltakerRegistrering && skalVisePameldingslenke ? (
               <Link className={classNames(styles.link, styles.linkAsButton)} to="./deltaker">
                 Start påmelding
@@ -152,6 +153,7 @@ export function ModiaArbeidsmarkedstiltakDetaljer() {
                 seg mot elektronisk kommunikasjon
               </Alert>
             )}
+
             {delMedBrukerInfo && (
               <div className={styles.dialogknapp}>
                 <Button
@@ -169,7 +171,7 @@ export function ModiaArbeidsmarkedstiltakDetaljer() {
                 </Button>
               </div>
             )}
-          </div>
+          </>
         }
       />
     </>
