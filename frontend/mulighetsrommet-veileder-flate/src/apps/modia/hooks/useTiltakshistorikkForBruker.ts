@@ -9,7 +9,7 @@ export function useTiltakshistorikkForBruker() {
   const requestBody = { norskIdent: fnr };
 
   return useQuery({
-    queryKey: [QueryKeys.Historikk, fnr],
+    queryKey: [QueryKeys.Historikk, requestBody],
     queryFn: () => mulighetsrommetClient.historikk.hentHistorikkForBruker({ requestBody }),
   });
 }

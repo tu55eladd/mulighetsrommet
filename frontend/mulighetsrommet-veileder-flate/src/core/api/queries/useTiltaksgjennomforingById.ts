@@ -13,7 +13,7 @@ export function useTiltaksgjennomforingById() {
   const enheter = valgteEnhetsnumre(filter);
 
   return useQuery({
-    queryKey: QueryKeys.sanity.tiltaksgjennomforing(id),
+    queryKey: QueryKeys.sanity.tiltaksgjennomforing(id, enheter),
     queryFn: () =>
       mulighetsrommetClient.veilederTiltak.getVeilederTiltaksgjennomforing({ id, enheter }),
   });
@@ -23,7 +23,7 @@ export function useNavTiltaksgjennomforingById() {
   const id = useGetTiltaksgjennomforingIdFraUrl();
 
   return useQuery({
-    queryKey: QueryKeys.sanity.tiltaksgjennomforing(id),
+    queryKey: QueryKeys.sanity.tiltaksgjennomforing(id, []),
     queryFn: () => mulighetsrommetClient.veilederTiltak.getNavTiltaksgjennomforing({ id }),
   });
 }
@@ -34,7 +34,7 @@ export function usePreviewTiltaksgjennomforingById() {
   const enheter = valgteEnhetsnumre(filter);
 
   return useQuery({
-    queryKey: QueryKeys.sanity.tiltaksgjennomforingPreview(id),
+    queryKey: QueryKeys.sanity.tiltaksgjennomforing(id, enheter),
     queryFn: () =>
       mulighetsrommetClient.veilederTiltak.getPreviewTiltaksgjennomforing({ id, enheter }),
   });

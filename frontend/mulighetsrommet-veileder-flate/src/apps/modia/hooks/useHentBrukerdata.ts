@@ -10,7 +10,7 @@ export function useHentBrukerdata() {
   const requestBody = { norskIdent: fnr };
 
   return useQuery<Bruker>({
-    queryKey: [QueryKeys.Brukerdata, fnr],
+    queryKey: [QueryKeys.Brukerdata, requestBody],
     queryFn: () => mulighetsrommetClient.bruker.getBrukerdata({ requestBody }),
   });
 }
