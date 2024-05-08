@@ -36,6 +36,6 @@ fun Route.apiRoutes() {
                 status = HttpStatusCode.NotFound,
             )
 
-        call.respond(ArenaTiltaksgjennomforingDto(tiltaksgjennomforing.tiltaksgjennomforingId, tiltaksgjennomforing.status))
+        call.respond(ArenaTiltaksgjennomforingDto(tiltaksgjennomforing.tiltaksgjennomforingId))
     }
 }

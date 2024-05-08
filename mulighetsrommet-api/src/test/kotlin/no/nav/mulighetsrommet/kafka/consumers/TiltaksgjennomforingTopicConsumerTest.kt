@@ -104,7 +104,6 @@ class TiltaksgjennomforingTopicConsumerTest : FunSpec({
             val arenaAdapterClient = mockk<ArenaAdapterClient>()
             coEvery { arenaAdapterClient.hentArenadata(gjennomforing.id) } returns ArenaTiltaksgjennomforingDto(
                 arenaId = 123,
-                status = "AVSLU",
             )
 
             val tiltakstyper = TiltakstypeService(TiltakstypeRepository(database.db), enabledTiltakskoder = listOf(Tiltakskode.OPPFOLGING))
