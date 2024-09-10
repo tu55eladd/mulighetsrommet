@@ -31,7 +31,17 @@ export const TILTAK_I_EGEN_REGI_PROD = [
   "d322b7e7-0c68-44d6-a325-b12d71af63c6", // IPS
 ];
 
-export const isInAdminFlate = (tiltakstypeRef?: string) => {
+export const TILTAK_ENKELTPLASS_ANSKAFFET_DEV = [
+  "bbb8d042-b30e-4e4a-8cd0-210019b19de3", // Arbeidsmarkedsopplæring (enkeltplass)
+  "222a0065-9777-4e09-b2cf-4f48759f86e3", // Fag- og yrkesopplæring eller fagskole (enkeltplass)
+];
+
+export const TILTAK_ENKELTPLASS_ANSKAFFET_PROD = [
+  "6c4f372f-9631-4916-b7c1-549c17239d78", // Arbeidsmarkedsopplæring (enkeltplass)
+  "6f46bd0b-c9a7-4b03-bd16-e51a8f80f88d", // Fag- og yrkesopplæring eller fagskole (enkeltplass)
+];
+
+export function isInAdminFlate(tiltakstypeRef?: string) {
   if (!tiltakstypeRef) {
     return false;
   }
@@ -39,14 +49,23 @@ export const isInAdminFlate = (tiltakstypeRef?: string) => {
     !IKKE_I_ADMINFLATE_TILTAK_PROD.includes(tiltakstypeRef) &&
     !IKKE_I_ADMINFLATE_TILTAK_DEV.includes(tiltakstypeRef)
   );
-};
+}
 
-export const isEgenRegiTiltak = (tiltakstypeRef?: string) => {
+export function isEgenRegiTiltak(tiltakstypeRef?: string) {
   if (!tiltakstypeRef) {
     return false;
   }
   return TILTAK_I_EGEN_REGI_PROD.includes(tiltakstypeRef);
-};
+}
+
+export function isEnkeltplassAnskaffetTiltak(tiltakstypeRef?: string) {
+  if (!tiltakstypeRef) {
+    return false;
+  }
+  return [...TILTAK_ENKELTPLASS_ANSKAFFET_DEV, ...TILTAK_ENKELTPLASS_ANSKAFFET_PROD].includes(
+    tiltakstypeRef,
+  );
+}
 
 export const hasDuplicates = <T,>(arr: T[]): boolean => {
   return new Set(arr).size < arr.length;

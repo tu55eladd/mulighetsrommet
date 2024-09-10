@@ -8,7 +8,7 @@ import {
   IKKE_I_ADMINFLATE_TILTAK_PROD,
   hasDuplicates,
   isEgenRegiTiltak,
-  isInAdminFlate,
+  isInAdminFlate, isEnkeltplassAnskaffetTiltak
 } from "../utils/utils";
 import { EnhetType } from "./enhet";
 
@@ -261,6 +261,14 @@ export const tiltaksgjennomforing = defineType({
 
           return true;
         }),
+    }),
+    defineField({
+      name: "arrangor",
+      title: "Arrangør",
+      type: "arrangor",
+      hidden: ({ document }) => {
+        return !isEnkeltplassAnskaffetTiltak(document.tiltakstype?._ref);
+      },
     }),
     //Faneinnhold
     defineField({
